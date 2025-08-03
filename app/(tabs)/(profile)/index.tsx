@@ -1,30 +1,26 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-export default function NotFoundScreen() {
+const Profile = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>404</Text>
-      <Text style={styles.message}>Page Not Found</Text>
+      <Text style={styles.title}>Profile</Text>
+      {/* Add more profile details here */}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     backgroundColor: "#fff",
   },
   title: {
-    fontSize: 64,
+    fontSize: 24,
     fontWeight: "bold",
-    color: "#d32f2f",
-  },
-  message: {
-    fontSize: 20,
-    color: "#333",
-    marginTop: 16,
   },
 });
+
+export default Profile;
