@@ -1,7 +1,23 @@
+import { BookingAction } from "@/model/typeBooking";
 import { colors, commonStyles } from "@/styles/commonStyles";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
-const FormInputInformation = () => {
+interface FormInputProps {
+  dispatch: React.Dispatch<BookingAction>;
+  specialRequest: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string;
+}
+
+const FormInputInformation: React.FC<FormInputProps> = ({
+  dispatch,
+  customerName,
+  customerEmail,
+  customerPhone,
+  specialRequest,
+}) => {
   return (
     <View style={styles.container}>
       <View
@@ -15,11 +31,12 @@ const FormInputInformation = () => {
           Thông tin liên lạc
         </Text>
         {/* container input full name  */}
+        {/* Container input full name */}
         <View style={{ marginBottom: 16 }}>
           <Text style={[commonStyles.textLight, { marginBottom: 8 }]}>
             Full Name *
           </Text>
-          <View
+          <TextInput
             style={{
               backgroundColor: colors.backgroundAlt,
               borderRadius: 8,
@@ -27,19 +44,27 @@ const FormInputInformation = () => {
               paddingVertical: 12,
               borderWidth: 1,
               borderColor: colors.border,
+              color: colors.textLight,
             }}
-          >
-            <Text style={[commonStyles.text, { color: colors.textLight }]}>
-              {"Enter your full name"}
-            </Text>
-          </View>
+            placeholder="Enter your full name"
+            placeholderTextColor={colors.textLight}
+            value={customerName}
+            onChangeText={(text) =>
+              dispatch({
+                type: "UPDATE_FIELD",
+                field: "customerName",
+                value: text,
+              })
+            }
+          />
         </View>
-        {/* container input phone  */}
+
+        {/* Container input phone */}
         <View style={{ marginBottom: 16 }}>
           <Text style={[commonStyles.textLight, { marginBottom: 8 }]}>
             Phone Number *
           </Text>
-          <View
+          <TextInput
             style={{
               backgroundColor: colors.backgroundAlt,
               borderRadius: 8,
@@ -47,19 +72,28 @@ const FormInputInformation = () => {
               paddingVertical: 12,
               borderWidth: 1,
               borderColor: colors.border,
+              color: colors.textLight,
             }}
-          >
-            <Text style={[commonStyles.text, { color: colors.textLight }]}>
-              {"Phone Number"}
-            </Text>
-          </View>
+            placeholder="Phone Number"
+            placeholderTextColor={colors.textLight}
+            keyboardType="phone-pad" // Để hiển thị bàn phím số
+            value={customerPhone}
+            onChangeText={(phone) =>
+              dispatch({
+                type: "UPDATE_FIELD",
+                field: "customerPhone",
+                value: phone,
+              })
+            }
+          />
         </View>
-        {/* container input Email  */}
+
+        {/* Container input Email */}
         <View style={{ marginBottom: 16 }}>
           <Text style={[commonStyles.textLight, { marginBottom: 8 }]}>
             Email *
           </Text>
-          <View
+          <TextInput
             style={{
               backgroundColor: colors.backgroundAlt,
               borderRadius: 8,
@@ -67,12 +101,50 @@ const FormInputInformation = () => {
               paddingVertical: 12,
               borderWidth: 1,
               borderColor: colors.border,
+              color: colors.textLight,
             }}
-          >
-            <Text style={[commonStyles.text, { color: colors.textLight }]}>
-              {"Email"}
-            </Text>
-          </View>
+            placeholder="Email"
+            placeholderTextColor={colors.textLight}
+            keyboardType="email-address" // Để hiển thị bàn phím email
+            value={customerEmail}
+            onChangeText={(email) =>
+              dispatch({
+                type: "UPDATE_FIELD",
+                field: "customerEmail",
+                value: email,
+              })
+            }
+          />
+        </View>
+
+        {/* Container input note */}
+        <View>
+          <Text style={[commonStyles.textLight, { marginBottom: 8 }]}>
+            Additional Notes
+          </Text>
+          <TextInput
+            style={{
+              backgroundColor: colors.backgroundAlt,
+              borderRadius: 8,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              borderWidth: 1,
+              borderColor: colors.border,
+              minHeight: 80,
+              color: colors.text,
+            }}
+            placeholder="Any additional requests or dietary restrictions..."
+            placeholderTextColor={colors.text}
+            multiline // Cho phép nhập nhiều dòng
+            value={specialRequest}
+            onChangeText={(note) =>
+              dispatch({
+                type: "UPDATE_FIELD",
+                field: "specialRequest",
+                value: note,
+              })
+            }
+          />
         </View>
       </View>
     </View>

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from "react";
-import { View, StyleSheet, Text, Alert, TouchableOpacity } from "react-native";
+import React, { useEffect, useLayoutEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 // import { useLocalSearchParams } from "expo-router";
 import Animated, {
   Extrapolate,
@@ -15,8 +15,12 @@ import LeftAlignCarousel from "@/components/restaurant-category/restaurant/resta
 import { VALUE_DEFAULT } from "@/constants/Values";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import RestaurantInformation from "@/components/restaurant-category/restaurant/restaurantDetails/RestaurantDetails";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { useNavigation } from "@react-navigation/native";
+import {
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+  useSegments,
+} from "expo-router";
 
 export interface RestaurantDetailsProps {
   summary: string;
@@ -78,8 +82,12 @@ export default function RestaurantDetails() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const navigation = useNavigation();
+  const segments = useSegments();
 
+  console.log("Tên màn hình:", segments);
   const scrollY = useSharedValue(0);
+
+  //ẩn thanh tbaBottom
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -87,9 +95,11 @@ export default function RestaurantDetails() {
     },
   });
   const handlerBtnBooking = () => {
+    const bookingId = Array.isArray(id) ? id[0] : id;
     router.push({
       pathname: "/(tabs)/(home)/restaurants/bookingRestaurant/[id]",
-      params: { id: id, nameRestaurant: "Bún phở bà triệu" }, //name sẽ đc lấy sa khi call api
+      params: { id: bookingId },
+      //name sẽ đc lấy sa khi call api
     });
   };
 
@@ -301,7 +311,7 @@ const styles = StyleSheet.create({
   btnText: {},
   btnBookingBottomContainer: {
     position: "absolute",
-    bottom: 80,
+    bottom: 0,
     flexDirection: "row",
     flex: 1,
     padding: VALUE_DEFAULT.PADDING_HORIZONTAL,

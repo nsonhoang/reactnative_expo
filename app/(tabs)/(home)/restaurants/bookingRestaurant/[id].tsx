@@ -1,29 +1,52 @@
 import HeaderRestaurantBooking from "@/components/bookingRestaurant/HeaderRestaurantBooking";
+import ConfirmBooking from "@/components/bookingRestaurant/stepperBookingComponent/ConfirmBooking";
 import FormInputInformation from "@/components/bookingRestaurant/stepperBookingComponent/FormInputInformation";
 import SelectTime from "@/components/bookingRestaurant/stepperBookingComponent/SelectTime";
 import StepperRestaurantBooking from "@/components/bookingRestaurant/StepperBookingRestaurant";
 import Button from "@/components/button/Button";
 import { VALUE_DEFAULT } from "@/constants/Values";
+import { bookingReducer } from "@/hooks/useReducerBooking";
+import { BookingState } from "@/model/typeBooking";
 import { buttonStyles, colors, commonStyles } from "@/styles/commonStyles";
-import { useLocalSearchParams } from "expo-router";
-import { useState } from "react";
+import { useLocalSearchParams, useSegments } from "expo-router";
+import { useReducer } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+
+const initialState: BookingState = {
+  currentStep: 1,
+  selectedDate: new Date(),
+  selectedTime: "",
+  selectedPartySize: 2,
+  specialRequest: "",
+  customerName: "",
+  customerPhone: "",
+  customerEmail: "",
+};
 
 const RestaurantBooking = () => {
   const { id, nameRestaurant } = useLocalSearchParams();
-  const [currentStep, setCurrentStep] = useState(1);
+  const [state, dispatch] = useReducer(bookingReducer, initialState);
+  const segments = useSegments();
+  console.log("Tên màn hình:", segments);
 
   const handleBack = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+    if (state.currentStep > 1) {
+      dispatch({ type: "PREV_STEP" });
     } else {
       console.log("Back button pressed");
     }
   };
 
   const handleNext = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
+    if (state.currentStep === 1 && !state.selectedTime) {
+      Alert.alert("Error", "Please select a time slot");
+      return;
+    }
+    if (state.currentStep < 3) {
+      dispatch({ type: "NEXT_STEP" });
+      {
+        console.log(state.selectedDate);
+      }
     }
   };
 
@@ -35,18 +58,47 @@ const RestaurantBooking = () => {
   };
 
   const renderStepContent = () => {
-    switch (currentStep) {
+    switch (state.currentStep) {
       case 1:
-        return <SelectTime />;
+        return (
+          <SelectTime
+            dispatch={dispatch}
+            selectedDate={state.selectedDate}
+            selectedTime={state.selectedTime}
+            selectedPartySize={state.selectedPartySize}
+          />
+        );
       case 2:
-        return <FormInputInformation />;
+        return (
+          <FormInputInformation
+            dispatch={dispatch}
+            customerEmail={state.customerEmail}
+            customerName={state.customerName}
+            customerPhone={state.customerPhone}
+            specialRequest={state.specialRequest}
+          />
+        );
+
+      case 3:
+        return (
+          <ConfirmBooking
+            customerEmail={state.customerEmail}
+            customerName={state.customerName}
+            customerPhone={state.customerPhone}
+            specialRequest={state.specialRequest}
+            selectedDate={state.selectedDate}
+            selectedTime={state.selectedTime}
+            selectedPartySize={state.selectedPartySize}
+            nameRestaurant={nameRestaurant}
+          />
+        );
     }
   };
 
   return (
     <View style={styles.container}>
       <HeaderRestaurantBooking />
-      <StepperRestaurantBooking CurrentStep={currentStep} />
+      <StepperRestaurantBooking CurrentStep={state.currentStep} />
 
       <ScrollView style={styles.scrollView}>
         {/* step 1 chọn thời gian */}
@@ -62,7 +114,7 @@ const RestaurantBooking = () => {
         {renderStepContent()}
         {/* Action Buttons */}
         <View style={styles.btnContainer}>
-          {currentStep > 1 && (
+          {state.currentStep > 1 && (
             <Button
               text="Previous"
               onPress={handleBack}
@@ -81,20 +133,21 @@ const RestaurantBooking = () => {
           )}
 
           <Button
-            text={currentStep === 3 ? "Confirm Booking" : "Next"}
-            onPress={currentStep === 3 ? handleConfirmBooking : handleNext}
+            text={state.currentStep === 3 ? "Confirm Booking" : "Next"}
+            onPress={
+              state.currentStep === 3 ? handleConfirmBooking : handleNext
+            }
             style={[
               buttonStyles.primary,
               {
                 backgroundColor: VALUE_DEFAULT.PRIMARY_COLOR,
-                flex: currentStep === 1 ? 1 : 2,
+                flex: state.currentStep === 1 ? 1 : 2,
               },
             ]}
             textStyle={{
               color: colors.white,
               fontWeight: "600",
               fontSize: 16,
-              position: "absolute",
             }}
           />
         </View>

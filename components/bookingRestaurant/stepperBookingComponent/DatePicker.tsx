@@ -11,6 +11,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { MaterialIcons } from "@expo/vector-icons";
 import { VALUE_DEFAULT } from "@/constants/Values";
+import { formatDate } from "@/utils/formatDate";
 
 interface DatePickerProps {
   initialDate?: Date;
@@ -34,15 +35,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
       setDate(selectedDate);
       onDateChange(selectedDate);
     }
-  };
-
-  const formatDate = (date: Date): string => {
-    return date.toLocaleDateString("vi-VN", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
   };
 
   return (

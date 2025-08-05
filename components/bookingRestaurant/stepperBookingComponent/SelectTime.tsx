@@ -1,35 +1,44 @@
 import { commonStyles } from "@/styles/commonStyles";
 import { useState } from "react";
-import {
-  Button,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import DatePicker from "./DatePicker";
 import TimeSlotPicker from "./TimeSlotPicker";
 import { ButtonIconCustom } from "@/components/button/ButtonIconCustom";
 import { VALUE_DEFAULT } from "@/constants/Values";
+import { BookingAction } from "@/model/typeBooking";
 
-const SelectTime = () => {
+interface SelectTimeProps {
+  dispatch: React.Dispatch<BookingAction>;
+  selectedDate: Date;
+  selectedTime: string;
+  selectedPartySize: number;
+}
+
+const SelectTime: React.FC<SelectTimeProps> = ({
+  dispatch,
+  selectedDate,
+  selectedTime,
+  selectedPartySize,
+}) => {
   const handleDateChange = (selectedDate: Date) => {
-    console.log("Ngày đã chọn:", selectedDate);
+    dispatch({
+      type: "UPDATE_FIELD",
+      field: "selectedDate",
+      value: selectedDate,
+    });
   };
-  const [selectedTime, setSelectedTime] = useState<string | undefined>();
-  const [partySize, setPartySize] = useState(0);
 
   const handleDecrement = () => {
-    if (partySize > 0) {
-      setPartySize((partySize) => partySize - 1);
-    } else {
-      setPartySize(0);
+    if (selectedPartySize > 0) {
+      dispatch({
+        type: "DECREASE_SIZE",
+      });
     }
   };
   const handleIncrement = () => {
-    setPartySize((partySize) => partySize + 1);
+    dispatch({
+      type: "INCREASE_SIZE",
+    });
   };
   return (
     <View style={styles.container}>
@@ -40,6 +49,7 @@ const SelectTime = () => {
             onDateChange={handleDateChange}
             minDate={new Date()} // Chỉ cho phép chọn ngày từ hôm nay
             maxDate={new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)} // Tối đa 30 ngày sau
+            initialDate={selectedDate}
           />
         </View>
       </View>
@@ -50,7 +60,11 @@ const SelectTime = () => {
             selectedTime={selectedTime}
             onTimeSelect={(time) => {
               console.log("Giờ đã chọn:", time);
-              setSelectedTime(time);
+              dispatch({
+                type: "UPDATE_FIELD",
+                field: "selectedTime",
+                value: time,
+              });
             }}
             interval={15} // Có thể thay đổi thành 15, 60 phút nếu cần
             timeStart={15} //có thể thay đổi thành giờ bắt đầu khác
@@ -69,7 +83,7 @@ const SelectTime = () => {
             onPress={handleDecrement}
           />
           <View>
-            <Text style={styles.input}>{partySize}</Text>
+            <Text style={styles.input}>{selectedPartySize}</Text>
           </View>
           <ButtonIconCustom
             style={styles.button}

@@ -1,14 +1,24 @@
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { VALUE_DEFAULT } from "@/constants/Values";
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
+
+const hiddenRoutes = [
+  ["(tabs)", "(home)", "restaurants", "[id]"],
+  ["(tabs)", "(home)", "restaurants", "bookingRestaurant", "[id]"],
+];
 
 export default function TabLayout() {
+  const segments = useSegments();
+  const shouldHideTabBar = hiddenRoutes.some(
+    (hiddenRoute) => JSON.stringify(hiddenRoute) === JSON.stringify(segments)
+  );
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: VALUE_DEFAULT.PRIMARY_COLOR,
         tabBarInactiveTintColor: VALUE_DEFAULT.SECONDARY_COLOR,
         tabBarStyle: {
+          display: shouldHideTabBar ? "none" : "flex",
           marginBottom: 10,
           position: "absolute",
           height: 80,
