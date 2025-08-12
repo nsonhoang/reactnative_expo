@@ -52,7 +52,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         <DateTimePicker
           value={date}
           mode="date"
-          display={Platform.OS === "ios" ? "spinner" : "default"}
+          display={Platform.OS === "ios" ? "default" : "default"}
           onChange={onChange}
           minimumDate={minDate}
           maximumDate={maxDate}

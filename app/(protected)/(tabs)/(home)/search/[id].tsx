@@ -1,14 +1,14 @@
+import RestaurantItem from "@/components/restaurant-category/restaurant/RestaurantItem";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
   ActivityIndicator,
   FlatList,
   ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import { useLocalSearchParams, useNavigation } from "expo-router";
-import RestaurantItem from "@/components/restaurant-category/restaurant/RestaurantItem";
 
 type Restaurant = {
   id: string;
@@ -30,22 +30,22 @@ const SearchResultScreen = () => {
         {
           id: "1",
           name: "Pizza Palace",
-          image: require("../../../../assets/images/nhahang/nhahang1.jpg"),
+          image: require("../../../../../assets/images/nhahang/nhahang1.jpg"),
         },
         {
           id: "2",
           name: "Sushi Central",
-          image: require("../../../../assets/images/nhahang/nhahang2.jpeg"),
+          image: require("../../../../../assets/images/nhahang/nhahang2.jpeg"),
         },
         {
           id: "3",
           name: "Burger House",
-          image: require("../../../../assets/images/nhahang/nhahang3.jpg"),
+          image: require("../../../../../assets/images/nhahang/nhahang3.jpg"),
         },
         {
           id: "4",
           name: "Nhà hàng chăn nuôi thủy hải sản",
-          image: require("../../../../assets/images/nhahang/nhahang4.jpg"),
+          image: require("../../../../../assets/images/nhahang/nhahang4.jpg"),
         },
       ]);
       setLoading(false);

@@ -15,7 +15,8 @@ const StepperRestaurantBooking: React.FC<StepperRestaurantBookingProps> = ({
           <View
             style={{
               ...styles.stepCircle,
-              backgroundColor: step <= CurrentStep ? "#d3a476" : "#d3d3d3", // Màu sắc dựa trên bước hiện tại
+              backgroundColor:
+                step <= CurrentStep ? VALUE_DEFAULT.PRIMARY_COLOR : "#d3d3d3", // Màu sắc dựa trên bước hiện tại
             }}
           >
             <Text style={styles.stepText}>{step}</Text>
@@ -24,7 +25,8 @@ const StepperRestaurantBooking: React.FC<StepperRestaurantBookingProps> = ({
             <View
               style={{
                 ...styles.stepLine,
-                backgroundColor: step < CurrentStep ? "#d3a476" : "#d3d3d3",
+                backgroundColor:
+                  step < CurrentStep ? VALUE_DEFAULT.PRIMARY_COLOR : "#d3d3d3",
               }}
             />
           )}

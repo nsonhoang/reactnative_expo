@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 // import { useLocalSearchParams } from "expo-router";
 import Animated, {
   Extrapolate,
@@ -10,17 +10,17 @@ import Animated, {
 } from "react-native-reanimated";
 
 import HeaderRestaurantDetails from "@/components/restaurant-category/restaurant/restaurantDetails/Header";
-import { CarouselItem } from "..";
 import LeftAlignCarousel from "@/components/restaurant-category/restaurant/restaurantDetails/LeftAlignCarousel";
+import RestaurantInformation from "@/components/restaurant-category/restaurant/restaurantDetails/RestaurantDetails";
 import { VALUE_DEFAULT } from "@/constants/Values";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import RestaurantInformation from "@/components/restaurant-category/restaurant/restaurantDetails/RestaurantDetails";
 import {
   useLocalSearchParams,
   useNavigation,
   useRouter,
   useSegments,
 } from "expo-router";
+import { CarouselItem } from "..";
 
 export interface RestaurantDetailsProps {
   summary: string;
@@ -68,13 +68,22 @@ const demoData: RestaurantDetailsProps = {
     "Khu vui chơi trẻ em",
   ],
   image: [
-    { id: 1, image: require("../../../../assets/images/nhahang/nhahang1.jpg") },
+    {
+      id: 1,
+      image: require("../../../../../assets/images/nhahang/nhahang1.jpg"),
+    },
     {
       id: 2,
-      image: require("../../../../assets/images/nhahang/nhahang2.jpeg"),
+      image: require("../../../../../assets/images/nhahang/nhahang2.jpeg"),
     },
-    { id: 3, image: require("../../../../assets/images/nhahang/nhahang3.jpg") },
-    { id: 4, image: require("../../../../assets/images/nhahang/nhahang4.jpg") },
+    {
+      id: 3,
+      image: require("../../../../../assets/images/nhahang/nhahang3.jpg"),
+    },
+    {
+      id: 4,
+      image: require("../../../../../assets/images/nhahang/nhahang4.jpg"),
+    },
   ],
 };
 
@@ -97,23 +106,11 @@ export default function RestaurantDetails() {
   const handlerBtnBooking = () => {
     const bookingId = Array.isArray(id) ? id[0] : id;
     router.push({
-      pathname: "/(tabs)/(home)/restaurants/bookingRestaurant/[id]",
+      pathname: "./bookingRestaurant/[id]",
       params: { id: bookingId },
       //name sẽ đc lấy sa khi call api
     });
   };
-
-  useEffect(() => {
-    navigation.getParent()?.setOptions({
-      tabBarStyle: { display: "none" },
-    });
-
-    return () => {
-      navigation.getParent()?.setOptions({
-        tabBarStyle: { display: "flex" },
-      });
-    };
-  }, [navigation]);
 
   const headerStyle = useAnimatedStyle(() => {
     const height = interpolate(

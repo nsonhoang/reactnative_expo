@@ -1,11 +1,16 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import Button from "@/components/button/Button";
+import { AuthContext } from "@/utils/AuthContext";
+import React, { useContext } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 const Profile = () => {
+  const authContext = useContext(AuthContext);
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-      {/* Add more profile details here */}
+
+      <Text>Nhà hàng của bạn</Text>
+      <Button text="Logout" onPress={authContext.logout} />
     </View>
   );
 };
@@ -15,7 +20,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   title: {
     fontSize: 24,

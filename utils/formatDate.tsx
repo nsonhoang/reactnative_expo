@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const formatDate = (date: Date): string => {
   return date.toLocaleDateString("vi-VN", {
     weekday: "long",
@@ -5,4 +7,8 @@ export const formatDate = (date: Date): string => {
     month: "long",
     year: "numeric",
   });
+};
+
+export const formatDateHideWeekday = (date: Date): string => {
+  return format(date, "dd/MM/yyyy");
 };

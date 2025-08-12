@@ -2,7 +2,7 @@ import { Dimensions } from "react-native";
 
 export const VALUE_DEFAULT = {
   PRIMARY_COLOR: "#FF6B6B",
-  SECONDARY_COLOR: "#a3acb9",
+  SECONDARY_COLOR: "#d3d3d3",
   COLOR_ICON: "#132947",
   COLOR_TEXT: "#132947",
   SIZE_ICON: 24,

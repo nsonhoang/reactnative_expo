@@ -8,7 +8,7 @@ import { VALUE_DEFAULT } from "@/constants/Values";
 import { bookingReducer } from "@/hooks/useReducerBooking";
 import { BookingState } from "@/model/typeBooking";
 import { buttonStyles, colors, commonStyles } from "@/styles/commonStyles";
-import { useLocalSearchParams, useSegments } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useReducer } from "react";
 import { Alert, ScrollView, StyleSheet, Text, View } from "react-native";
 
@@ -26,8 +26,7 @@ const initialState: BookingState = {
 const RestaurantBooking = () => {
   const { id, nameRestaurant } = useLocalSearchParams();
   const [state, dispatch] = useReducer(bookingReducer, initialState);
-  const segments = useSegments();
-  console.log("Tên màn hình:", segments);
+  const router = useRouter();
 
   const handleBack = () => {
     if (state.currentStep > 1) {
@@ -49,14 +48,30 @@ const RestaurantBooking = () => {
       }
     }
   };
-
   const handleConfirmBooking = () => {
     Alert.alert(
-      "Booking Confirmed! 🎉",
-      `Your table for  athas been booked for} at .\n\nA confirmation will be sent to your phone.`
+      "Đặt bàn thành công! 🎉",
+      `Bàn cho ${
+        state.selectedPartySize
+      } người tại ${nameRestaurant} đã được đặt thành công vào ngày ${state.selectedDate.toLocaleDateString(
+        "vi-VN"
+      )} lúc ${
+        state.selectedTime
+      }.\n\nThông tin xác nhận sẽ được gửi tới số điện thoại của bạn.`,
+      [
+        {
+          text: "Xem đơn đặt bàn",
+          onPress: () => {
+            router.replace("/(tabs)/(home)");
+          },
+        },
+        {
+          text: "Đóng",
+          style: "cancel",
+        },
+      ]
     );
   };
-
   const renderStepContent = () => {
     switch (state.currentStep) {
       case 1:
@@ -90,6 +105,7 @@ const RestaurantBooking = () => {
             selectedTime={state.selectedTime}
             selectedPartySize={state.selectedPartySize}
             nameRestaurant={nameRestaurant}
+            idRestaurant={id as string}
           />
         );
     }

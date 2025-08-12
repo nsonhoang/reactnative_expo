@@ -1,4 +1,4 @@
-import { CarouselItem } from "@/app/(tabs)/(home)";
+import { CarouselItem } from "@/app/(protected)/(tabs)/(home)";
 import { VALUE_DEFAULT } from "@/constants/Values";
 import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";

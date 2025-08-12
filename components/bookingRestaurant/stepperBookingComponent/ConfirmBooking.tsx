@@ -1,18 +1,18 @@
-import { BookingAction } from "@/model/typeBooking";
 import { commonStyles } from "@/styles/commonStyles";
 import { formatDate } from "@/utils/formatDate";
 
 import { StyleSheet, Text, View } from "react-native";
 
-interface ConfirmBookingProps {
+export interface ConfirmBookingProps {
   selectedDate: Date;
   selectedTime: string;
   selectedPartySize: number;
   specialRequest: string;
   customerName: string;
   customerPhone: string;
-  customerEmail: string;
+  customerEmail?: string;
   nameRestaurant: string | string[];
+  idRestaurant: string;
 }
 
 const ConfirmBooking: React.FC<ConfirmBookingProps> = ({
@@ -24,13 +24,14 @@ const ConfirmBooking: React.FC<ConfirmBookingProps> = ({
   customerPhone,
   customerEmail,
   nameRestaurant,
+  idRestaurant,
 }) => {
   return (
     <View style={styles.container}>
       {/* Tóm Tắt Đặt Chỗ */}
       <View style={[commonStyles.card, commonStyles.marginBottom]}>
         <Text style={[commonStyles.subtitle, { marginBottom: 16 }]}>
-          Tóm Tắt Đặt Chỗ
+          Hoàn Tất Đặt Chỗ
         </Text>
 
         <View style={[commonStyles.row, { marginBottom: 12 }]}>

@@ -3,9 +3,21 @@ import { VALUE_DEFAULT } from "@/constants/Values";
 import { Tabs, useSegments } from "expo-router";
 
 const hiddenRoutes = [
-  ["(tabs)", "(home)", "restaurants", "[id]"],
-  ["(tabs)", "(home)", "restaurants", "bookingRestaurant", "[id]"],
+  ["(protected)", "(tabs)", "(home)", "restaurants", "[id]"],
+  [
+    "(protected)",
+    "(tabs)",
+    "(home)",
+    "restaurants",
+    "bookingRestaurant",
+    "[id]",
+  ],
+  ["(protected)", "(tabs)", "(booking)", "historyBooking"],
+  ["(protected)", "(tabs)", "(booking)", "historyBooking", "[id]"],
 ];
+export const unstable_settings = {
+  tabBarOrder: ["1-home", "2-booking", "3-profile"], // ← Khai báo thứ tự tại đây
+};
 
 export default function TabLayout() {
   const segments = useSegments();
@@ -54,6 +66,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <IconSymbol name="book.fill" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tabs.Screen
@@ -63,16 +76,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <IconSymbol name="person.fill" color={color} size={size} />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="(setting)"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color, size }) => (
-            <IconSymbol name="gear.circle.fill" color={color} size={size} />
-          ),
-          headerShown: false,
         }}
       />
     </Tabs>

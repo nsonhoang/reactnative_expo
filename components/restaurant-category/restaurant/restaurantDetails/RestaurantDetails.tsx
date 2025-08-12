@@ -1,7 +1,7 @@
-import { PriceItem } from "@/app/(tabs)/(home)/restaurants/[id]";
+import { PriceItem } from "@/app/(protected)/(tabs)/(home)/restaurants/[id]";
 import { VALUE_DEFAULT } from "@/constants/Values";
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 type RestaurantDetailsProps = {
   summary: string;

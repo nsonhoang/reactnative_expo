@@ -29,7 +29,7 @@ const HeaderRestaurantBooking = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#d3a476",
+    backgroundColor: VALUE_DEFAULT.PRIMARY_COLOR,
     height: 70,
     alignItems: "center",
     justifyContent: "space-between",

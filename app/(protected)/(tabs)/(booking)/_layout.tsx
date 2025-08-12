@@ -1,6 +1,8 @@
-import { Stack } from "expo-router";
+import { Stack, useSegments } from "expo-router";
 
 export default function BookingLayout() {
+  const segments = useSegments();
+  console.log(segments);
   return (
     <Stack>
       <Stack.Screen
@@ -8,6 +10,12 @@ export default function BookingLayout() {
         options={{
           headerShown: false,
           contentStyle: { backgroundColor: "transparent" },
+        }}
+      />
+      <Stack.Screen
+        name="historyBooking"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>

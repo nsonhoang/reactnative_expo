@@ -1,8 +1,8 @@
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 
-import Animated, { useSharedValue } from "react-native-reanimated";
+import { CarouselItem } from "@/app/(protected)/(tabs)/(home)";
 import React from "react";
-import { CarouselItem } from "@/app/(tabs)/(home)";
+import Animated, { useSharedValue } from "react-native-reanimated";
 import ParallaxCarouselCard from "./Animation-Parallax-Card";
 
 interface AnimationParallaxCarouselProps {

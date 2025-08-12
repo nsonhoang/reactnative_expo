@@ -1,11 +1,12 @@
-import {
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-} from "react-native";
+import { VALUE_DEFAULT } from "@/constants/Values";
 import { colors } from "@/styles/commonStyles";
+import {
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 
 interface ButtonProps {
   text: string;
@@ -16,7 +17,7 @@ interface ButtonProps {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
+    backgroundColor: VALUE_DEFAULT.PRIMARY_COLOR,
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,
