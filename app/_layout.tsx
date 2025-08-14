@@ -6,6 +6,7 @@ export default function AppLayout() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* Main Stack for the app */}
+
       <AuthProvider>
         <Stack>
           <Stack.Screen
@@ -17,6 +18,13 @@ export default function AppLayout() {
           />
           <Stack.Screen
             name="login"
+            options={{
+              animation: "none",
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="authLogin"
             options={{
               animation: "none",
               headerShown: false,
