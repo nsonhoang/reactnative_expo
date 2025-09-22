@@ -19,7 +19,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = (props) => {
       />
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Xin chào!</Text>
-        <Link href="./(tabs)/(profile)" asChild>
+        <Link href="../(tabs)/(profile)" asChild>
           <Text style={styles.detail}>Nguyễn Sơn Hoàng</Text>
         </Link>
       </View>

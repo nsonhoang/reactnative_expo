@@ -1,16 +1,31 @@
+import { VALUE_DEFAULT } from "@/constants/Values";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
-import Carousel, { Pagination } from "react-native-reanimated-carousel";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import { VALUE_DEFAULT } from "@/constants/Values";
+import Carousel from "react-native-reanimated-carousel";
 
 const data = [
-  { id: "1", title: "Slide 1", color: "#FF7675" },
-  { id: "2", title: "Slide 2", color: "#74B9FF" },
-  { id: "3", title: "Slide 3", color: "#55EFC4" },
+  {
+    id: "1",
+    title: "Nhà hàng 1",
+    description:
+      "Nhà hàng sang trọng với thực đơn đa dạng và không gian ấm cúng.",
+  },
+  {
+    id: "2",
+    title: "Nhà hàng 2",
+    description:
+      "Thưởng thức ẩm thực độc đáo với phong cách phục vụ chuyên nghiệp.",
+  },
+  {
+    id: "3",
+    title: "Nhà hàng 3",
+    description: "Không gian lý tưởng cho các buổi họp mặt và bữa ăn gia đình.",
+  },
 ];
 
 const CarouselDemo = () => {
@@ -29,10 +44,25 @@ const CarouselDemo = () => {
     });
 
     return (
-      <Animated.View
-        style={[styles.item, { backgroundColor: item.color }, animatedStyle]}
-      >
-        <Text style={styles.title}>{item.title}</Text>
+      <Animated.View style={[styles.card, animatedStyle]}>
+        <ImageBackground
+          source={require("../../assets/images/nhahang/nhahang1.jpg")}
+          style={styles.imageBackground}
+        >
+          {/* Gradient phủ dưới ảnh để chữ nổi bật */}
+          <LinearGradient
+            colors={["transparent", "rgba(0,0,0,0.6)"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={StyleSheet.absoluteFill}
+          />
+
+          {/* Nội dung */}
+          <View style={styles.content}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.subtitle}>{item.description}</Text>
+          </View>
+        </ImageBackground>
       </Animated.View>
     );
   };
@@ -42,7 +72,7 @@ const CarouselDemo = () => {
       <Carousel
         mode="parallax"
         loop
-        height={50}
+        height={200}
         width={VALUE_DEFAULT.WIDTH_ITEM}
         data={data}
         autoPlay={true}
@@ -60,17 +90,34 @@ const styles = StyleSheet.create({
     width: "100%",
     marginHorizontal: -VALUE_DEFAULT.PADDING_HORIZONTAL,
   },
+  card: {
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+
+  imageBackground: {
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-end",
+  },
   item: {
     borderRadius: 10,
-
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 8,
+    overflow: "hidden",
+  },
+  content: {
+    padding: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#f0f0f0",
   },
 });
 

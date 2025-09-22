@@ -76,6 +76,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, size }) => (
             <IconSymbol name="person.fill" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
     </Tabs>

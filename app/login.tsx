@@ -2,10 +2,9 @@ import Button from "@/components/button/Button";
 import CustomDialog from "@/components/dialog/CustomDialog";
 import { VALUE_DEFAULT } from "@/constants/Values";
 import { colors } from "@/styles/commonStyles";
-import { AuthContext } from "@/utils/AuthContext";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -25,7 +24,6 @@ import Animated, {
 } from "react-native-reanimated";
 
 export default function Login() {
-  const authContext = useContext(AuthContext);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [showDialog, setShowDialog] = useState(false);
   const router = useRouter();
@@ -46,6 +44,27 @@ export default function Login() {
     });
   }, [translateY]);
 
+  // const signInWithPhoneNumber = async () => {
+  //   try{
+  //     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+  //     setConfirm(confirmation);
+  //   }catch (error) {
+  //     console.log("Error sending code:", error);
+  //   }
+  // }
+  // const confirmCode = async () => {
+  //   try{
+  //     const userCredential = await confirm.confirm(code)
+  //   }
+  // }
+
+  const handleConfirmDialog = () => {
+    router.push({
+      pathname: "/authLogin",
+      params: { phoneNumber },
+    });
+    setShowDialog(false);
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -92,7 +111,9 @@ export default function Login() {
               <Button
                 style={styles.button}
                 text="Tiếp tục"
-                onPress={() => setShowDialog(true)}
+                onPress={() => {
+                  setShowDialog(true);
+                }}
               />
             </View>
             <CustomDialog
@@ -101,11 +122,7 @@ export default function Login() {
               message={`Mã OTP sẽ được gửi về số điện thoại ${phoneNumber} `}
               primaryButtonText="Tiếp tục"
               secondaryButtonText="Hủy"
-              onPrimaryPress={() => {
-                router.push("./authLogin");
-
-                setShowDialog(false);
-              }}
+              onPrimaryPress={handleConfirmDialog}
               onSecondaryPress={() => setShowDialog(false)}
             />
           </View>

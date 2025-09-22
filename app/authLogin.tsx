@@ -2,34 +2,132 @@ import Button from "@/components/button/Button";
 import { ButtonIconCustom } from "@/components/button/ButtonIconCustom";
 import InputOtp from "@/components/login/inputOtp";
 import { VALUE_DEFAULT } from "@/constants/Values";
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+
+import { AuthContext } from "@/utils/AuthContext";
+import formatPhoneNumber from "@/utils/FormatPhoneNumber";
+import { getAuth, signInWithPhoneNumber } from "@react-native-firebase/auth"; //authentication
 
 function AuthLogin() {
-  const [otpValue, setOtpValue] = useState("");
+  const { phoneNumber } = useLocalSearchParams();
 
-  const handleVerify = () => {
-    console.log("OTP Value: ");
-  };
-  console.log("AuthLogin rendered");
+  const [code, setCode] = useState(""); //mã OTP
+  const [confirm, setConfirm] = useState(null); // If null, no SMS has been sent
+  const [isReady, setIsReady] = useState(false); // trạng thái sẵn sàng
+  // verification code (OTP - One-Time-Passcode)
+  const router = useRouter();
+  const translateX = useSharedValue(-VALUE_DEFAULT.WIDTH_ITEM);
 
+  const authContext = useContext(AuthContext); // Lấy context auth
+
+  //animation
+  const animationStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateX: translateX.value }],
+    };
+  });
+
+  //lấy otp đăng nhập
+  async function handleSignInWithPhoneNumber(phoneNumber: any) {
+    try {
+      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+      console.log("sdt" + formattedPhoneNumber);
+      const confirmation = await signInWithPhoneNumber(
+        getAuth(),
+        formattedPhoneNumber
+      );
+      console.log("Confirmation sent to:", formattedPhoneNumber);
+      setConfirm(confirmation);
+      setIsReady(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // chay hàm
+  useEffect(() => {
+    translateX.value = withTiming(0, {
+      duration: 400,
+      easing: Easing.out(Easing.cubic),
+    });
+    handleSignInWithPhoneNumber(phoneNumber);
+  }, []);
+
+  //nhập số
   const handleInput = (text: string) => {
-    console.log("Input OTP: ", text);
+    setCode(text);
+    console.log("Code entered:", text);
   };
+  const handleBack = () => {
+    router.back();
+  };
+
+  // Handle login
+  function handleAuthStateChanged(user: any) {
+    if (user) {
+      console.log("User is signed in", user);
+    }
+  }
+
+  async function confirmCode() {
+    if (!confirm) {
+      console.log("Chưa có confirmation");
+      return;
+    }
+    try {
+      await confirm.confirm(code);
+      authContext.login(); // Gọi hàm login từ AuthContext
+      console.log("Code confirmed successfully");
+    } catch (error) {
+      console.log("Invalid code.", error);
+    }
+  }
+
+  if (!isReady) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={VALUE_DEFAULT.PRIMARY_COLOR} />
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.container}>
-      <View>
-        <ButtonIconCustom
-          iconName="arrow-back-ios"
-          onPress={() => {}}
-          style={styles.btnBack}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <Animated.View style={[styles.container, animationStyle]}>
+        <View>
+          <ButtonIconCustom
+            iconName="arrow-back-ios"
+            onPress={handleBack}
+            style={styles.btnBack}
+          />
+        </View>
+        <Text style={styles.headerTitle}>Xác nhận</Text>
+        <InputOtp cellCount={6} onCodeFilled={handleInput} />
+        <Button
+          text="Xác nhận"
+          onPress={confirmCode}
+          style={styles.btnConfirm}
         />
-      </View>
-      <Text style={styles.headerTitle}>Xác nhận</Text>
-      <InputOtp cellCount={6} onCodeFilled={handleInput} />
-      <Button text="Xác nhận" onPress={() => {}} />
-    </View>
+      </Animated.View>
+    </KeyboardAvoidingView>
   );
 }
 const styles = StyleSheet.create({
@@ -65,6 +163,9 @@ const styles = StyleSheet.create({
   },
   focusCell: {
     borderColor: VALUE_DEFAULT.PRIMARY_COLOR,
+  },
+  btnConfirm: {
+    marginBottom: 20,
   },
 });
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "682348664660",
+    "project_id": "restauranexpoapp",
+    "storage_bucket": "restauranexpoapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682348664660:android:18d00c8ac1dcbf80d65ac1",
+        "android_client_info": {
+          "package_name": "com.hoangshpy.expoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR2FgTcz3JfW507aUw1as6HSgo0ISWzTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
