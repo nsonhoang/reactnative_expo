@@ -43,21 +43,6 @@ function AuthLogin() {
   });
 
   //lấy otp đăng nhập
-  async function handleSignInWithPhoneNumber(phoneNumber: any) {
-    try {
-      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
-      console.log("sdt" + formattedPhoneNumber);
-      const confirmation = await signInWithPhoneNumber(
-        getAuth(),
-        formattedPhoneNumber
-      );
-      console.log("Confirmation sent to:", formattedPhoneNumber);
-      setConfirm(confirmation);
-      setIsReady(true);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   // chay hàm
   useEffect(() => {
@@ -81,6 +66,22 @@ function AuthLogin() {
   function handleAuthStateChanged(user: any) {
     if (user) {
       console.log("User is signed in", user);
+    }
+  }
+
+  async function handleSignInWithPhoneNumber(phoneNumber: any) {
+    try {
+      const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
+      console.log("sdt" + formattedPhoneNumber);
+      const confirmation = await signInWithPhoneNumber(
+        getAuth(),
+        formattedPhoneNumber
+      );
+      console.log("Confirmation sent to:", formattedPhoneNumber);
+      setConfirm(confirmation);
+      setIsReady(true);
+    } catch (error) {
+      console.log(error);
     }
   }
 

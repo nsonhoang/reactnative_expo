@@ -6,7 +6,6 @@ export interface BookingState {
   customerPhone: string;
   customerEmail: string;
   specialRequest: string;
-
   currentStep: number;
 }
 

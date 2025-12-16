@@ -45,7 +45,7 @@ const LeftAlignCarousel: React.FC<CarouselItemList> = ({ list }) => {
   };
 
   const handlerSearch = () => {
-    route.push("/(tabs)/(home)/search");
+    route.push("../../../(tabs)/(home)/search");
   };
 
   return (
@@ -84,6 +84,8 @@ const LeftAlignCarousel: React.FC<CarouselItemList> = ({ list }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
+    borderWidth: 1,
+    borderColor: "#000",
   },
   containerHeader: {
     position: "absolute",

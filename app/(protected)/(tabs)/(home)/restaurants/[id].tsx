@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 // import { useLocalSearchParams } from "expo-router";
 import Animated, {
   Extrapolate,
+  Extrapolation,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -14,12 +15,7 @@ import LeftAlignCarousel from "@/components/restaurant-category/restaurant/resta
 import RestaurantInformation from "@/components/restaurant-category/restaurant/restaurantDetails/RestaurantDetails";
 import { VALUE_DEFAULT } from "@/constants/Values";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import {
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-  useSegments,
-} from "expo-router";
+import { useLocalSearchParams, useRouter, useSegments } from "expo-router";
 import { CarouselItem } from "..";
 
 export interface RestaurantDetailsProps {
@@ -90,7 +86,6 @@ const demoData: RestaurantDetailsProps = {
 export default function RestaurantDetails() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const navigation = useNavigation();
   const segments = useSegments();
 
   console.log("Tên màn hình:", segments);
@@ -117,13 +112,13 @@ export default function RestaurantDetails() {
       scrollY.value,
       [200, 130], // Mở rộng dải đầu vào
       [70, 0],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
     const opacity = interpolate(
       scrollY.value,
       [0, 100, 150], // Mở rộng dải đầu vào
       [0, 0.5, 1],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
 
     return {

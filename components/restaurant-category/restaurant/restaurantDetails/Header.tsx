@@ -11,7 +11,7 @@ const HeaderRestaurantDetails = (props: { style: object }) => {
     router.back();
   };
   const handlerSearch = () => {
-    router.push("/(tabs)/(home)/search");
+    router.push("../../(tabs)/(home)/search");
   };
   return (
     <Animated.View style={[styles.headerContainer, props.style]}>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: VALUE_DEFAULT.PADDING_HORIZONTAL,
+    // padding: VALUE_DEFAULT.PADDING_HORIZONTAL,
     backgroundColor: "#fff",
   },
   titleContainer: {},
